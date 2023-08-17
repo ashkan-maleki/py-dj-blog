@@ -1,4 +1,12 @@
 #===============================
+# Environment setup
+#===============================
+
+env-setup:
+	sudo apt install python3.10-venv
+	sudo apt install python3-pip
+
+#===============================
 # Git commands
 #===============================
 
@@ -8,19 +16,53 @@ COMMIT_MESSAGE ?= $(shell bash -c 'read -p "Commit Message: " COMMIT_MESSAGE; ec
 commit:
 	git add .
 	git commit -m "$(COMMIT_MESSAGE)"
-	git push
 
+push: commit
+	git push
 
 pull:
 	git fetch
 	git pull
 
-USERNAME ?= $(shell bash -c 'read -p "Username: " username; echo $$username')
-PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd')
+#USERNAME ?= $(shell bash -c 'read -p "Username: " username; echo $$username')
+#PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd')
+#
+#
+#
+#talk:
+#	@clear
+#	@echo Username › $(USERNAME)
+#	@echo Password › $(PASSWORD)
+
+#===============================
+# Project setup
+#===============================
+
+pyenv-create:
+	python -m venv venv
+
+freeze:
+	pipreqs . --force
+
+install-py-packages:
+	pip install pipreqs
+	pip install -r requirements.txt
+
+setup: pyenv-create pyenv-activate
+
+
+# don't run this command, because source cannot executed in makefile
+# I keep this command here for convenience
+pyenv-activate:
+	source venv/bin/activate
 
 
 
-talk:
-	@clear
-	@echo Username › $(USERNAME)
-	@echo Password › $(PASSWORD)
+pyenv-deactivate:
+	deactivate
+
+#===============================
+# Project run
+#===============================
+
+run: pyenv-activate
