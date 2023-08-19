@@ -71,5 +71,12 @@ pyenv-deactivate:
 run:
 	python manage.py runserver 127.0.0.1:8000 --settings=mysite.settings
 
+#===============================
+# Project django
+#===============================
+DJANGO_APP ?= $(shell bash -c 'read -p "Django App: " DJANGO_APP; echo $$DJANGO_APP')
 migrate:
 	python manage.py migrate
+
+mk-migration:
+	python manage.py makemigrations $(DJANGO_APP)
