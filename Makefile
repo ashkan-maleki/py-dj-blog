@@ -1,3 +1,5 @@
+all: run
+
 #===============================
 # Environment setup
 #===============================
@@ -65,4 +67,9 @@ pyenv-deactivate:
 # Project run
 #===============================
 
-run: pyenv-activate
+
+run:
+	python manage.py runserver 127.0.0.1:8000 --settings=mysite.settings
+
+migrate:
+	python manage.py migrate
