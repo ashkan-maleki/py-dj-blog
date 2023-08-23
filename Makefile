@@ -80,3 +80,6 @@ migrate:
 
 mk-migration:
 	python manage.py makemigrations $(DJANGO_APP)
+
+shell:
+	python manage.py shell
