@@ -26,7 +26,7 @@ pull:
 	git fetch
 	git pull
 
-
+# git
 sync: pull push
 
 #USERNAME ?= $(shell bash -c 'read -p "Username: " username; echo $$username')
