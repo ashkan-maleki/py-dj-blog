@@ -20,13 +20,12 @@ commit:
 	git commit -m "$(COMMIT_MESSAGE)"
 
 push: commit
-	#git push -u origin main
-	pass git push -u --all
+	git push
 
 pull:
 	git fetch
 	git pull
-
+# sdfsdfsd
 sync: pull push
 
 #USERNAME ?= $(shell bash -c 'read -p "Username: " username; echo $$username')
