@@ -20,7 +20,7 @@ commit:
 	git commit -m "$(COMMIT_MESSAGE)"
 
 push: commit
-	git push
+	pass git push
 
 pull:
 	git fetch
