@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.http import Http404
+from taggit.models import Tag
 
 from .forms import EmailPostForm, CommentForm
 from .models import Post
@@ -23,8 +24,14 @@ class PostListView(ListView):
     template_name = 'blog/post/list.html'
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     post_all = Post.published.all()
+
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        post_all = post_all.filter(tags__in=[tag])
+
     paginator = Paginator(post_all, 3)
     page_number = request.GET.get('page', 1)
     try:
@@ -36,7 +43,8 @@ def post_list(request):
         # If page_number is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
     logger.debug(type({'posts': posts}))
-    return render(request, template_name='blog/post/list.html', context={'posts': posts})
+    return render(request, template_name='blog/post/list.html', context={'posts': posts,
+                  'tag': tag})
 
 
 def post_detail(request, year, month, day, post):
