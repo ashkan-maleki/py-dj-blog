@@ -9,7 +9,7 @@ env-setup:
 	sudo apt install python3-pip
 
 #===============================
-# Git commands 
+# Git commands
 #===============================
 
 pass:
