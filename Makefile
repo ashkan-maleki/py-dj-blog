@@ -57,7 +57,7 @@ install-py-packages:
 
 
 # don't run this command, because source cannot executed in makefile
-# I keep this command here for convenience
+# I keep this command here for convenience ()
 pyenv-activate:
 	source venv/bin/activate
 
