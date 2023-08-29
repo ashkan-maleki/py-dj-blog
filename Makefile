@@ -12,6 +12,9 @@ env-setup:
 # Git commands
 #===============================
 
+pass:
+	pass generate -c Internet/github.com 21
+
 COMMIT_MESSAGE ?= $(shell bash -c 'read -p "Commit Message: " COMMIT_MESSAGE; echo $$COMMIT_MESSAGE')
 
 #@echo Commit Message › $(COMMIT_MESSAGE)
