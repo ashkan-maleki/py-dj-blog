@@ -55,15 +55,11 @@ install-py-packages:
 	pip install pipreqs
 	pip install -r requirements.txt
 
-setup: pyenv-create pyenv-activate
-
 
 # don't run this command, because source cannot executed in makefile
 # I keep this command here for convenience
 pyenv-activate:
 	source venv/bin/activate
-
-
 
 pyenv-deactivate:
 	deactivate
