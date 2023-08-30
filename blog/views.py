@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.http import Http404
+from django.db.models import Count
 from taggit.models import Tag
 
 from .forms import EmailPostForm, CommentForm
@@ -44,7 +45,7 @@ def post_list(request, tag_slug=None):
         posts = paginator.page(paginator.num_pages)
     logger.debug(type({'posts': posts}))
     return render(request, template_name='blog/post/list.html', context={'posts': posts,
-                  'tag': tag})
+                                                                         'tag': tag})
 
 
 def post_detail(request, year, month, day, post):
@@ -62,12 +63,18 @@ def post_detail(request, year, month, day, post):
     # Form for users to comment
     form = CommentForm()
 
+    # List of similar posts
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+
     # return render(request, 'blog/post_list.html', {'posts': posts})
     logger.debug(type({'post': post}))
     return render(request, template_name='blog/post/detail.html',
                   context={'post': post,
                            'comments': comments,
-                           'form': form})
+                           'form': form,
+                           'similar_posts': similar_posts})
 
 
 def post_share(request, post_id):
