@@ -7,7 +7,9 @@ import markdown
 from ..models import Post
 
 register = template.Library()
+import logging
 
+logger = logging.getLogger(__name__)
 
 @register.simple_tag()
 def total_posts():
@@ -29,4 +31,6 @@ def get_most_commented_posts(count=5):
 
 @register.filter(name='markdown')
 def markdown_format(text):
+    logger.debug( markdown.markdown(text) )
+    logger.debug( mark_safe(markdown.markdown(text)) )
     return mark_safe(markdown.markdown(text))
