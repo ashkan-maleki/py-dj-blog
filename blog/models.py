@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.utils.encoding import uri_to_iri
 from taggit.managers import TaggableManager
 
 
@@ -22,6 +23,7 @@ class Post(models.Model):
         # __empty__ = _("(Unknown)")
 
     title = models.CharField(max_length=250)
+    # slug = models.SlugField(max_length=250, unique_for_date='publish')
     slug = models.SlugField(max_length=250, unique_for_date='publish', allow_unicode=True)
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
@@ -51,7 +53,8 @@ class Post(models.Model):
         return reverse('blog:post_detail', args=[self.publish.year,
                                                  self.publish.month,
                                                  self.publish.day,
-                                                 self.slug])
+                                                 # self.slug,
+                                                 uri_to_iri(self.slug)])
 
 
 class Comment(models.Model):
