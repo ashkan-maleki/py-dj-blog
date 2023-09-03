@@ -6,7 +6,7 @@ from .feeds import LatestPostsFeed
 app_name = 'blog'
 
 class FarsiSlug:
-    regex = "[-\\w0-9_]+)/\\Z"
+    regex = "^[a-z0-9]+(?:-[a-z0-9]+)*$"
 
     def to_python(self, value):
         return str(value)
